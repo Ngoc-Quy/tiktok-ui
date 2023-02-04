@@ -5,6 +5,7 @@ import {
   faCircleQuestion,
   faCircleXmark,
   faEarthAsia,
+  faEllipsisVertical,
   faKeyboard,
   faMagnifyingGlass,
   faPlus,
@@ -108,11 +109,7 @@ function Header() {
           </Tippy>
           <Menu items={MENU_ITEMS}>
             <button className={cx('login-icon')}>
-              <img
-                className={cx('icon')}
-                src={images.login}
-                alt="upload"
-              />
+              <FontAwesomeIcon icon={faEllipsisVertical} />
             </button>
           </Menu>
         </div>
