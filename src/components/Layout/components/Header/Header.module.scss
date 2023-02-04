@@ -15,6 +15,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 var(--default-layout-horizontal-spacer);
 }
 .search,
 .search-result {
@@ -92,9 +93,6 @@
   }
 }
 
-.actions {
-  display: flex;
-}
 .upload-icon {
   margin-top: 2px;
   margin-right: -10px;
@@ -111,4 +109,26 @@
   background-color: transparent;
   font-size: 1.8rem;
   padding: 4px 8px;
+}
+
+// Actions
+.actions {
+  display: flex;
+  align-items: center;
+}
+.action-btn {
+  font-size: 2.2rem;
+  background-color: transparent;
+  color: #161823;
+  padding: 4px 12px;
+  cursor: pointer;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  margin-left: 12px;
+  cursor: pointer;
+  border-radius: 50%;
 }
