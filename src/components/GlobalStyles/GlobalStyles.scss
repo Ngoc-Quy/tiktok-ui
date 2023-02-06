@@ -76,8 +76,7 @@ body {
   .tippy-content {
     padding: 8px 9px;
   }
-  .tippy-box[data-placement^='bottom']
-    > .tippy-arrow:before {
+  .tippy-box[data-placement^='bottom'] > .tippy-arrow:before {
     top: -8px;
   }
 }

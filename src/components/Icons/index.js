@@ -50,6 +50,7 @@ export const InboxIcon = ({
     width={width}
     height={height}
     viewBox="0 0 32 32"
+    // Set màu mặc định của font chữ khi click vào
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -71,7 +72,8 @@ export const SearchIcon = ({
     width={width}
     height={height}
     viewBox="0 0 48 48"
-    fill="rgba(22, 24, 35, 0.34)"
+    // Set màu mặc định của font chữ khi click vào
+    fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path

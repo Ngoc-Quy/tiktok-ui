@@ -31,10 +31,7 @@ function Button({
   if (disabled) {
     delete props.onClick;
     Object.keys(props).forEach((key) => {
-      if (
-        key.startsWith('on') &&
-        typeof props[key] === 'function'
-      ) {
+      if (key.startsWith('on') && typeof props[key] === 'function') {
         delete props[key];
       }
     });
@@ -60,13 +57,9 @@ function Button({
 
   return (
     <Comp className={classes} {...props}>
-      {leftIcon && (
-        <span className={cx('icon')}>{leftIcon}</span>
-      )}
+      {leftIcon && <span className={cx('icon')}>{leftIcon}</span>}
       <span className={cx('title')}>{children}</span>
-      {rightIcon && (
-        <span className={cx('icon')}>{rightIcon}</span>
-      )}
+      {rightIcon && <span className={cx('icon')}>{rightIcon}</span>}
     </Comp>
   );
 }

@@ -11,11 +11,7 @@ const cx = classNames.bind(styles);
 
 const defaultFn = () => {};
 
-function Menu({
-  children,
-  items = [],
-  onChange = defaultFn,
-}) {
+function Menu({ children, items = [], onChange = defaultFn }) {
   const [history, setHistory] = useState([{ data: items }]);
   const current = history[history.length - 1];
 
@@ -31,10 +27,7 @@ function Menu({
           // Phần logic của click hiện cấp con
           onClick={() => {
             if (isParent) {
-              setHistory((prev) => [
-                ...prev,
-                item.children,
-              ]);
+              setHistory((prev) => [...prev, item.children]);
             } else {
               onChange(item);
             }
@@ -51,20 +44,14 @@ function Menu({
       offset={[12, 8]}
       placement="bottom-end"
       render={(attrs) => (
-        <div
-          className={cx('menu-list')}
-          tabIndex="-1"
-          {...attrs}
-        >
+        <div className={cx('menu-list')} tabIndex="-1" {...attrs}>
           <PopperWrapper className={cx('menu-popper')}>
             {history.length > 1 && (
               // Xử lý logic để khi click quay lại cấp cha
               <Header
                 title="Ngôn ngữ"
                 onBack={() => {
-                  setHistory((prev) =>
-                    prev.slice(0, prev.length - 1),
-                  );
+                  setHistory((prev) => prev.slice(0, prev.length - 1));
                 }}
               />
             )}
