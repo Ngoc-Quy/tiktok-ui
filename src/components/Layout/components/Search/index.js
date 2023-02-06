@@ -16,15 +16,32 @@ function Search() {
   // Hàm thực hiện để hiện kết quả tìm kiếm
   const [searchResult, setSearchResult] = useState([]);
   const [showResult, setShowResult] = useState(true);
+  const [loading, setLoading] = useState(false);
   // Hàm thực hiện để lấy ref của thẻ input thực hiện logic
   const inputRef = useRef();
 
   // Hàm để lấy fake API tìm kiếm
   useEffect(() => {
-    setTimeout(() => {
-      setSearchResult([1, 2]);
-    }, 0);
-  }, []);
+    if (!searchValue.trim()) {
+      setSearchResult([]);
+      return;
+    }
+    setLoading(true);
+
+    fetch(
+      `https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(
+        searchValue,
+      )}&type=less`,
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        setSearchResult(res.data);
+        setLoading(false);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [searchValue]);
 
   // Hàm xử lý để xoá kết quả tìm kiếm khi ấn vào nút xoá
   const handleClear = () => {
@@ -45,10 +62,9 @@ function Search() {
         <div className={cx('search-result')} tabIndex="-1" {...attrs}>
           <PopperWrapper>
             <h4 className={cx('search-title')}>Accounts</h4>
-            <AccountItem />
-            <AccountItem />
-            <AccountItem />
-            <AccountItem />
+            {searchResult.map((result) => {
+              return <AccountItem key={result.id} data={result} />;
+            })}
           </PopperWrapper>
         </div>
       )}
@@ -67,14 +83,16 @@ function Search() {
             setShowResult(true);
           }}
         />
-        {!!searchValue && (
+        {!!searchValue && !loading && (
           // Khi có giá trị thì hiện nút xoá,
           // Khi bấm vào nút xoá thì xoá tìm kiếm đi
           <button className={cx('clear')} onClick={handleClear}>
             <FontAwesomeIcon icon={faCircleXmark} />
           </button>
         )}
-        {/* <FontAwesomeIcon className={cx('loading')} icon={faSpinner} /> */}
+        {loading && (
+          <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />
+        )}
         <button className={cx('search-btn')}>
           <SearchIcon />
         </button>
