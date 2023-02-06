@@ -4,15 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCircleQuestion,
   faCircleXmark,
-  faCloudUpload,
   faCoins,
   faEarthAsia,
   faEllipsisVertical,
   faGear,
-  faInbox,
   faKeyboard,
-  faMagnifyingGlass,
-  faMessage,
   faMoon,
   faPlus,
   faSignOut,
@@ -29,6 +25,13 @@ import styles from './Header.module.scss';
 import images from '~/assets/images';
 import AccountItem from '~/components/AccountItem';
 import Menu from '~/components/Popper/Menu';
+import {
+  InboxIcon,
+  MessageIcon,
+  SearchIcon,
+  UploadIcon,
+} from '~/components/Icons';
+import Image from '~/components/Image';
 
 const cx = classNames.bind(styles);
 
@@ -151,7 +154,7 @@ function Header() {
             />
 
             <button className={cx('search-btn')}>
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
+              <SearchIcon />
             </button>
           </div>
         </Tippy>
@@ -160,30 +163,31 @@ function Header() {
             // Xử lý logic khi đăng nhập ẩn button hiện icon
             <>
               <Tippy
-                delay={[0, 200]}
+                delay={[0, 50]}
                 content="Tải lên video"
                 placement="bottom"
               >
                 <button className={cx('action-btn')}>
-                  <FontAwesomeIcon icon={faCloudUpload} />
+                  <UploadIcon />
                 </button>
               </Tippy>
               <Tippy
-                delay={[0, 200]}
+                delay={[0, 50]}
                 content="Tín nhắn"
                 placement="bottom"
               >
                 <button className={cx('action-btn')}>
-                  <FontAwesomeIcon icon={faMessage} />
+                  <MessageIcon />
                 </button>
               </Tippy>
               <Tippy
-                delay={[0, 200]}
+                delay={[0, 50]}
                 content="Hộp thư đến"
                 placement="bottom"
               >
                 <button className={cx('action-btn')}>
-                  <FontAwesomeIcon icon={faInbox} />
+                  <InboxIcon />
+                  <span className={cx('badge')}>12</span>
                 </button>
               </Tippy>
             </>
@@ -215,10 +219,11 @@ function Header() {
             conChange={handleMenuChange}
           >
             {currentUser ? (
-              <img
-                src="https://p16-sign-va.tiktokcdn.com/tos-useast2a-avt-0068-aiso/65d3c6b1d1e205c75536ccf1f26d552d~c5_100x100.jpeg?x-expires=1675695600&x-signature=LVWHdmG8%2FD1ouTBCuWfIYBi5GCA%3D"
+              <Image
+                src="error.https://p16-sign-va.tiktokcdn.com/tos-useast2a-avt-0068-aiso/65d3c6b1d1e205c75536ccf1f26d552d~c5_100x100.jpeg?x-expires=1675695600&x-signature=LVWHdmG8%2FD1ouTBCuWfIYBi5GCA%3D"
                 className={cx('user-avatar')}
                 alt="Nguyen van A"
+                fallback="https://files.fullstack.edu.vn/f8-prod/user_avatars/1/623d4b2d95cec.png"
               />
             ) : (
               <button className={cx('login-icon')}>
