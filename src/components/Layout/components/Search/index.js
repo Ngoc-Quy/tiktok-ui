@@ -6,6 +6,7 @@ import classNames from 'classnames/bind';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import AccountItem from '~/components/AccountItem';
 import { SearchIcon } from '~/components/Icons';
+import { useDebounce } from '~/hoooks';
 import styles from './Search.module.scss';
 
 const cx = classNames.bind(styles);
@@ -17,12 +18,15 @@ function Search() {
   const [searchResult, setSearchResult] = useState([]);
   const [showResult, setShowResult] = useState(true);
   const [loading, setLoading] = useState(false);
+
+  const debounce = useDebounce(searchValue, 500);
+
   // Hàm thực hiện để lấy ref của thẻ input thực hiện logic
   const inputRef = useRef();
 
   // Hàm để lấy fake API tìm kiếm
   useEffect(() => {
-    if (!searchValue.trim()) {
+    if (!debounce.trim()) {
       setSearchResult([]);
       return;
     }
@@ -30,7 +34,7 @@ function Search() {
 
     fetch(
       `https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(
-        searchValue,
+        debounce,
       )}&type=less`,
     )
       .then((res) => res.json())
@@ -41,7 +45,7 @@ function Search() {
       .finally(() => {
         setLoading(false);
       });
-  }, [searchValue]);
+  }, [debounce]);
 
   // Hàm xử lý để xoá kết quả tìm kiếm khi ấn vào nút xoá
   const handleClear = () => {
