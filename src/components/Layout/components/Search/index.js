@@ -3,6 +3,9 @@ import { faCircleXmark, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import HeadlessTippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
+
+import * as searchServices from '~/apiServices/searchServices';
+// import * as request from '~/utils/request';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import AccountItem from '~/components/AccountItem';
 import { SearchIcon } from '~/components/Icons';
@@ -12,7 +15,7 @@ import styles from './Search.module.scss';
 const cx = classNames.bind(styles);
 
 function Search() {
-  // Hàm thực hiện để thực hiên giá trị tìm kiếm
+  // Hàm thực hiện để thực hiện giá trị tìm kiếm
   const [searchValue, setSearchValue] = useState('');
   // Hàm thực hiện để hiện kết quả tìm kiếm
   const [searchResult, setSearchResult] = useState([]);
@@ -30,21 +33,55 @@ function Search() {
       setSearchResult([]);
       return;
     }
-    setLoading(true);
 
-    fetch(
-      `https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(
-        debounce,
-      )}&type=less`,
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        setSearchResult(res.data);
-        setLoading(false);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    const fetchApi = async () => {
+      setLoading(true);
+
+      const result = await searchServices.search(debounce);
+      setSearchResult(result);
+      setLoading(false);
+    };
+    fetchApi();
+    // TH3: gọi API bằng async, await
+
+    // setLoading(true);
+    // const fetchApi = async () => {
+    //   try {
+    //     const res = await request.get('users/search', {
+    //       params: {
+    //         q: debounce,
+    //         type: 'less',
+    //       },
+    //     });
+    //     setSearchResult(res.data);
+    //     setLoading(false);
+    //   } catch (error) {
+    //     setLoading(false);
+    //   }
+    // };
+    // fetchApi();
+
+    // TH 1: sử dụng axios gọi API như cơ bản
+    // axios.get(`https://tiktok.fullstack.edu.vn/api/users/search`)
+
+    // TH 2: sử dụng request gọi API, tạo components request
+    // {request
+    //   .get('users/search', {
+    //     params: {
+    //       q: debounce,
+    //       type: 'less',
+    //     },
+    //   })
+    //   .then((res) => {
+    //     // TH1: dùng axios
+    //     // setSearchResult(res.data.data);
+    //     // TH2: custom res.data.data thành res.data
+    //     setSearchResult(res.data);
+    //     setLoading(false);
+    //   })
+    //   .finally(() => {
+    //     setLoading(false);
+    //   });}
   }, [debounce]);
 
   // Hàm xử lý để xoá kết quả tìm kiếm khi ấn vào nút xoá
