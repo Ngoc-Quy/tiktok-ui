@@ -103,52 +103,56 @@ function Search() {
   };
 
   return (
-    <HeadlessTippy
-      interactive
-      visible={showResult && searchResult.length > 0}
-      render={(attrs) => (
-        <div className={cx('search-result')} tabIndex="-1" {...attrs}>
-          <PopperWrapper>
-            <h4 className={cx('search-title')}>Accounts</h4>
-            {searchResult.map((result) => {
-              return <AccountItem key={result.id} data={result} />;
-            })}
-          </PopperWrapper>
-        </div>
-      )}
-      // Thuộc tính của Tippy để khi blur ra ngoài
-      // Thực hiện hàm ẩn kết quả tìm kiếm
-      onClickOutside={handleHideResult}
-    >
-      <div className={cx('search')}>
-        <input
-          ref={inputRef}
-          value={searchValue}
-          placeholder="Tìm kiếm tài khoản và video"
-          spellCheck={false}
-          onChange={handleChange}
-          onFocus={() => {
-            setShowResult(true);
-          }}
-        />
-        {!!searchValue && !loading && (
-          // Khi có giá trị thì hiện nút xoá,
-          // Khi bấm vào nút xoá thì xoá tìm kiếm đi
-          <button className={cx('clear')} onClick={handleClear}>
-            <FontAwesomeIcon icon={faCircleXmark} />
+    // Dùng thẻ <div> để fix lỗi warning của thư viện Tippy
+    <div>
+      <HeadlessTippy
+        interactive
+        visible={showResult && searchResult.length > 0}
+        render={(attrs) => (
+          <div className={cx('search-result')} tabIndex="-1" {...attrs}>
+            <PopperWrapper>
+              <h4 className={cx('search-title')}>Accounts</h4>
+              {searchResult.map((result) => {
+                return <AccountItem key={result.id} data={result} />;
+              })}
+            </PopperWrapper>
+          </div>
+        )}
+        // Thuộc tính của Tippy để khi blur ra ngoài
+        // Thực hiện hàm ẩn kết quả tìm kiếm
+        onClickOutside={handleHideResult}
+      >
+        <div className={cx('search')}>
+          <input
+            className={cx('search-input')}
+            ref={inputRef}
+            value={searchValue}
+            placeholder="Tìm kiếm tài khoản và video"
+            spellCheck={false}
+            onChange={handleChange}
+            onFocus={() => {
+              setShowResult(true);
+            }}
+          />
+          {!!searchValue && !loading && (
+            // Khi có giá trị thì hiện nút xoá,
+            // Khi bấm vào nút xoá thì xoá tìm kiếm đi
+            <button className={cx('clear')} onClick={handleClear}>
+              <FontAwesomeIcon icon={faCircleXmark} />
+            </button>
+          )}
+          {loading && (
+            <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />
+          )}
+          <button
+            className={cx('search-btn')}
+            onMouseDown={(e) => e.preventDefault()}
+          >
+            <SearchIcon />
           </button>
-        )}
-        {loading && (
-          <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />
-        )}
-        <button
-          className={cx('search-btn')}
-          onMouseDown={(e) => e.preventDefault()}
-        >
-          <SearchIcon />
-        </button>
-      </div>
-    </HeadlessTippy>
+        </div>
+      </HeadlessTippy>
+    </div>
   );
 }
 

@@ -12,6 +12,10 @@
   border-radius: var(--search-border-radius);
   border: 1.5px solid transparent;
 
+  .search-input {
+    padding-right: 40px;
+  }
+
   input {
     flex: 1;
     height: 100%;
