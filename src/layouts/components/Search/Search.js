@@ -19,17 +19,14 @@ function Search() {
   const [searchValue, setSearchValue] = useState('');
   // Hàm thực hiện để hiện kết quả tìm kiếm
   const [searchResult, setSearchResult] = useState([]);
-  const [showResult, setShowResult] = useState(true);
+  const [showResult, setShowResult] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const debounce = useDebounce(searchValue, 500);
-
+  const debounceValue = useDebounce(searchValue, 500);
   // Hàm thực hiện để lấy ref của thẻ input thực hiện logic
   const inputRef = useRef();
-
   // Hàm để lấy fake API tìm kiếm
   useEffect(() => {
-    if (!debounce.trim()) {
+    if (!debounceValue.trim()) {
       setSearchResult([]);
       return;
     }
@@ -37,7 +34,7 @@ function Search() {
     const fetchApi = async () => {
       setLoading(true);
 
-      const result = await searchServices.search(debounce);
+      const result = await searchServices.search(debounceValue);
       setSearchResult(result);
       setLoading(false);
     };
@@ -49,7 +46,7 @@ function Search() {
     //   try {
     //     const res = await request.get('users/search', {
     //       params: {
-    //         q: debounce,
+    //         q: debounceValue,
     //         type: 'less',
     //       },
     //     });
@@ -68,7 +65,7 @@ function Search() {
     // {request
     //   .get('users/search', {
     //     params: {
-    //       q: debounce,
+    //       q: debounceValue,
     //       type: 'less',
     //     },
     //   })
@@ -82,7 +79,7 @@ function Search() {
     //   .finally(() => {
     //     setLoading(false);
     //   });}
-  }, [debounce]);
+  }, [debounceValue]);
 
   // Hàm xử lý để xoá kết quả tìm kiếm khi ấn vào nút xoá
   const handleClear = () => {
@@ -124,7 +121,6 @@ function Search() {
       >
         <div className={cx('search')}>
           <input
-            className={cx('search-input')}
             ref={inputRef}
             value={searchValue}
             placeholder="Tìm kiếm tài khoản và video"
