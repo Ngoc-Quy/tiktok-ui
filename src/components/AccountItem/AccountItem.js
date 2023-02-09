@@ -8,9 +8,15 @@ import Image from '~/components/Image';
 
 const cx = classNames.bind(styles);
 
-function AccountItem({ data }) {
+function AccountItem({ data, setShowResult }) {
   return (
-    <Link to={`/@${data.nickname}`} className={cx('wrapper')}>
+    <Link
+      to={`/@${data.nickname}`}
+      className={cx('wrapper')}
+      onClick={() => {
+        setShowResult(false);
+      }}
+    >
       <Image className={cx('avatar')} src={data.avatar} alt={data.full_name} />
       <div className={cx('info')}>
         <h4 className={cx('name')}>
@@ -27,6 +33,7 @@ function AccountItem({ data }) {
 
 AccountItem.propTypes = {
   data: PropTypes.object.isRequired,
+  setShowResult: PropTypes.bool,
 };
 
 export default AccountItem;
