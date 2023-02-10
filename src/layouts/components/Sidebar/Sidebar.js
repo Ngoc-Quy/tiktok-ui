@@ -10,6 +10,8 @@ import {
   UserGroupIcon,
 } from '~/components/Icons';
 import config from '~/config';
+import SuggestedAccounts from '~/components/SuggestedAccounts';
+import LoginSidebar from '~/components/LoginSidebar';
 
 const cx = classNames.bind(styles);
 
@@ -36,6 +38,9 @@ function Sidebar() {
           activeIcon={<LiveActiveIcon />}
         />
       </Menu>
+      <LoginSidebar />
+      <SuggestedAccounts label="Tài khoản được để xuất" />
+      <SuggestedAccounts label="Đang theo dõi" />
     </aside>
   );
 }
