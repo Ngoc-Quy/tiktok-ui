@@ -1,40 +1,44 @@
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import Button from '~/components/Button';
 import styles from './AccountPreview.module.scss';
 
+import Image from '~/components/Image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-function AccountPreview() {
+function AccountPreview({ data }) {
   return (
     <div className={cx('wrapper')}>
       <div className={cx('header')}>
-        <img
-          className={cx('avatar')}
-          src="https://p19-sign.tiktokcdn-us.com/tos-useast5-avt-0068-tx/36ed7201179e25307dce8a8df2770f7b~c5_100x100.jpeg?x-expires=1676167200&x-signature=yt9lW6Jme8i5vl17hOX70J0TetM%3D"
-          alt=""
-        />
+        <Image className={cx('avatar')} src={data.avatar} alt={data.nickname} />
         <Button className={cx('follow-btn')} primary>
           Follow
         </Button>
       </div>
       <div className={cx('body')}>
         <p className={cx('nickname')}>
-          <strong>Nguyenvana</strong>
-          <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />
+          <strong>{data.nickname}</strong>
+          {data.tick && (
+            <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />
+          )}
         </p>
-        <p className={cx('name')}>Nguyen van a</p>
+        <p className={cx('name')}>{`${data.first_name} ${data.last_name}`}</p>
         <p className={cx('analytics')}>
-          <strong className={cx('value')}>8.2M </strong>
+          <strong className={cx('value')}>{data.followers_count} </strong>
           <span className={cx('label')}>Follower</span>
-          <strong className={cx('value')}>8.2M </strong>
+          <strong className={cx('value')}>{data.likes_count} </strong>
           <span className={cx('label')}>Thích</span>
         </p>
       </div>
     </div>
   );
 }
+
+AccountPreview.propTypes = {
+  data: PropTypes.object.isRequired,
+};
 
 export default AccountPreview;

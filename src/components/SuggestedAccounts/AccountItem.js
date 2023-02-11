@@ -1,20 +1,22 @@
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import Tippy from '@tippyjs/react/headless';
 
+import Image from '~/components/Image';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import AccountPreview from './AccountPreview';
 import styles from './SuggestedAccounts.module.scss';
 
 const cx = classNames.bind(styles);
 
-function AccountItem() {
+function AccountItem({ data }) {
   const renderPreview = (props) => {
     return (
       <div className={cx('preview')} tabIndex="-1" {...props}>
         <PopperWrapper>
-          <AccountPreview />
+          <AccountPreview data={data} />
         </PopperWrapper>
       </div>
     );
@@ -30,22 +32,30 @@ function AccountItem() {
         render={renderPreview}
       >
         <div className={cx('account-item')}>
-          <img
+          <Image
             className={cx('avatar')}
-            src="https://p19-sign.tiktokcdn-us.com/tos-useast5-avt-0068-tx/36ed7201179e25307dce8a8df2770f7b~c5_100x100.jpeg?x-expires=1676167200&x-signature=yt9lW6Jme8i5vl17hOX70J0TetM%3D"
-            alt="avatar"
+            src={data.avatar}
+            alt={data.nickname}
           />
           <div className={cx('item-info')}>
             <p className={cx('nickname')}>
-              <strong>Nguyenvana</strong>
-              <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />
+              <strong>{data.nickname}</strong>
+              {data.tick && (
+                <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />
+              )}
             </p>
-            <p className={cx('name')}>Nguyen van a</p>
+            <p
+              className={cx('name')}
+            >{`${data.first_name} ${data.last_name}`}</p>
           </div>
         </div>
       </Tippy>
     </div>
   );
 }
+
+AccountItem.propTypes = {
+  data: PropTypes.object.isRequired,
+};
 
 export default AccountItem;

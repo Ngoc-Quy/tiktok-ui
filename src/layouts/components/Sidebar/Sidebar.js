@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Sidebar.module.scss';
 import Menu, { MenuItem } from './Menu';
@@ -12,10 +13,24 @@ import {
 import config from '~/config';
 import SuggestedAccounts from '~/components/SuggestedAccounts';
 import LoginSidebar from '~/components/LoginSidebar';
+import * as userService from '~/Services/userService';
 
 const cx = classNames.bind(styles);
 
+const PER_PAGE = 5;
+
 function Sidebar() {
+  const [suggestedUser, setSuggestedUser] = useState([]);
+
+  useEffect(() => {
+    userService
+      .getSuggested({ page: 1, setPage: PER_PAGE })
+      .then((data) => {
+        setSuggestedUser(data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
   return (
     <aside className={cx('wrapper')}>
       <Menu>
@@ -39,7 +54,7 @@ function Sidebar() {
         />
       </Menu>
       <LoginSidebar />
-      <SuggestedAccounts label="Tài khoản được để xuất" />
+      <SuggestedAccounts label="Tài khoản được để xuất" data={suggestedUser} />
       <SuggestedAccounts label="Đang theo dõi" />
     </aside>
   );
